@@ -1,0 +1,1513 @@
+/* ========================================================================
+   REDRUM — Bar underground / Horror gore
+   ======================================================================== */
+
+@import url('https://fonts.googleapis.com/css2?family=Rubik+Mono+One&family=Rubik+Glitch&family=JetBrains+Mono:wght@400;500;700&family=Special+Elite&display=swap');
+
+@font-face {
+  font-family: 'ITC Benguiat';
+  src: url('fonts/ITCBenguiatStd-BoldCn.otf') format('opentype');
+  font-weight: 700;
+  font-style: normal;
+  font-display: swap;
+}
+@font-face {
+  font-family: 'ITC Benguiat';
+  src: url('fonts/ITCBenguiatStd-MediumCn.otf') format('opentype');
+  font-weight: 500;
+  font-style: normal;
+  font-display: swap;
+}
+@font-face {
+  font-family: 'ITC Benguiat';
+  src: url('fonts/ITCBenguiatStd-BookCn.otf') format('opentype');
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
+
+:root {
+  /* Palette */
+  --ink: #0a0908;          /* noir profond */
+  --ink-2: #14110f;        /* noir un peu moins noir */
+  --bone: #f4ede4;         /* blanc cassé / papier */
+  --bone-2: #ddd2c2;       /* papier abîmé */
+  --blood: #c41e1e;        /* le ROUGE */
+  --blood-deep: #8a0e0e;   /* sang séché */
+  --st-red: #e50914;       /* Stranger Things red */
+  --st-red-deep: #a00509;
+  --neon: #f5d547;         /* jaune néon de bar */
+  --rust: #6b2a1f;         /* rouille */
+  --smoke: rgba(244, 237, 228, 0.06);
+
+  /* Typo */
+  --display: 'Rubik Mono One', 'Impact', sans-serif;
+  --glitch: 'ITC Benguiat', 'Times New Roman', serif;
+  --mono: 'JetBrains Mono', 'Courier New', monospace;
+  --typer: 'Special Elite', 'JetBrains Mono', monospace;
+}
+
+* { box-sizing: border-box; margin: 0; padding: 0; }
+
+html, body {
+  background: var(--ink);
+  color: var(--bone);
+  font-family: var(--mono);
+  font-size: 16px;
+  line-height: 1.5;
+  overflow-x: hidden;
+  cursor: url('skeleton-arrow-32.png') 0 0, auto;
+}
+
+[data-cursor="hover"],
+button, a, .drink-card, .menu-item, .event-row, .tile, .menu-tab,
+.topbar nav button, .brand, .social-link {
+  cursor: url('skeleton-32.png') 7 0, pointer;
+}
+
+/* Hide the JS-driven custom cursor */
+.cursor, .cursor-dot { display: none !important; }
+
+/* ---------- Grain & scanlines (atmosphère CRT) ---------- */
+.grain {
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  z-index: 1000;
+  opacity: 0.18;
+  mix-blend-mode: overlay;
+  background-image: url("data:image/svg+xml;utf8,<svg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='3' stitchTiles='stitch'/><feColorMatrix values='0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0.6 0'/></filter><rect width='100%25' height='100%25' filter='url(%23n)'/></svg>");
+  animation: grainShift .3s steps(6) infinite;
+}
+@keyframes grainShift {
+  0%   { transform: translate(0,0); }
+  20%  { transform: translate(-2%, 1%); }
+  40%  { transform: translate(1%, -2%); }
+  60%  { transform: translate(-1%, 2%); }
+  80%  { transform: translate(2%, -1%); }
+  100% { transform: translate(0,0); }
+}
+.scanlines {
+  position: fixed; inset: 0;
+  pointer-events: none; z-index: 999;
+  background: repeating-linear-gradient(
+    0deg,
+    rgba(0,0,0,0) 0px,
+    rgba(0,0,0,0) 2px,
+    rgba(0,0,0,0.18) 3px,
+    rgba(0,0,0,0) 4px
+  );
+  mix-blend-mode: multiply;
+}
+
+/* ---------- Top bar ---------- */
+.topbar {
+  position: fixed;
+  top: 0; left: 0; right: 0;
+  z-index: 100;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 18px 32px;
+  background: linear-gradient(to bottom, var(--ink) 60%, transparent);
+  font-family: var(--mono);
+  font-size: 11px;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+}
+.topbar .brand {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  cursor: url('skeleton-32.png') 7 0, pointer;
+}
+.topbar .brand-mark {
+  width: 36px; height: 36px;
+  border: 2px solid var(--blood);
+  display: grid; place-items: center;
+  font-family: var(--display);
+  color: var(--blood);
+  font-size: 18px;
+  letter-spacing: -0.05em;
+  background: var(--ink);
+  position: relative;
+}
+.topbar .brand-mark::after {
+  content: '';
+  position: absolute;
+  inset: -4px;
+  border: 1px solid var(--blood-deep);
+  opacity: .4;
+}
+.topbar .brand-name {
+  font-family: var(--display);
+  font-size: 18px;
+  letter-spacing: 0.12em;
+  color: var(--bone);
+}
+.topbar nav {
+  display: flex;
+  gap: 4px;
+}
+.topbar nav button {
+  background: none;
+  border: none;
+  color: var(--bone);
+  font-family: var(--mono);
+  font-size: 11px;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  padding: 8px 14px;
+  cursor: url('skeleton-32.png') 7 0, pointer;
+  position: relative;
+  transition: color .2s;
+}
+.topbar nav button:hover { color: var(--blood); }
+.topbar nav button.active { color: var(--neon); }
+.topbar nav button.active::before {
+  content: '▸ ';
+  color: var(--blood);
+}
+.topbar .status {
+  display: flex; align-items: center; gap: 10px;
+  color: var(--bone-2);
+  font-size: 10px;
+}
+.topbar .status .dot {
+  width: 8px; height: 8px;
+  background: var(--blood);
+  border-radius: 50%;
+  animation: blink 1.4s infinite;
+}
+@keyframes blink {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.2; }
+}
+
+/* ---------- Page wrapper ---------- */
+.page {
+  display: none;
+  min-height: 100vh;
+  padding-top: 80px;
+}
+.page.active { display: block; }
+
+/* ===================== HOME ===================== */
+.hero {
+  position: relative;
+  min-height: 100vh;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  align-items: center;
+  padding: 0 64px;
+  overflow: hidden;
+}
+.hero-bg-pattern {
+  position: absolute;
+  inset: 0;
+  background-image:
+    radial-gradient(ellipse at 80% 70%, rgba(245, 213, 71, 0.06), transparent 60%);
+  z-index: 0;
+}
+.hero-hex {
+  position: absolute;
+  inset: 0;
+  background-image: url("data:image/svg+xml;utf8,<svg width='60' height='52' viewBox='0 0 60 52' xmlns='http://www.w3.org/2000/svg'><polygon points='15,0 45,0 60,26 45,52 15,52 0,26' fill='none' stroke='%23c41e1e' stroke-width='0.5' opacity='0.18'/></svg>");
+  background-size: 60px 52px;
+  opacity: 0.4;
+  z-index: 0;
+}
+.hero-content {
+  position: relative;
+  z-index: 2;
+}
+.hero-tagline {
+  font-family: var(--mono);
+  font-size: 11px;
+  letter-spacing: 0.4em;
+  text-transform: uppercase;
+  color: var(--blood);
+  margin-bottom: 32px;
+  display: flex;
+  align-items: center;
+  gap: 14px;
+}
+.hero-tagline::before {
+  content: '';
+  width: 40px; height: 1px;
+  background: var(--blood);
+}
+.hero h1 {
+  font-family: var(--display);
+  font-size: clamp(80px, 14vw, 200px);
+  line-height: 0.85;
+  letter-spacing: -0.04em;
+  color: var(--bone);
+  margin-bottom: 24px;
+  position: relative;
+}
+/* ===== STRANGER THINGS GLITCH ============================================
+   État par défaut : police de la marque, rien de spécial.
+   Pendant le "glitch", le mot se métamorphose en Benguiat rouge ST avec un
+   flicker dérangeant (stutter rapide, sauts, sur-exposition, échos).
+   ========================================================================= */
+/* ===== GLITCH MIRROIR + FRACTURE =========================================
+   Une seule typo. Le mot REDRUM s'inverse INSTANTANÉMENT (mirror snap),
+   et se fracture en bandes horizontales qui se décalent latéralement.
+   ========================================================================= */
+.hero h1 .glitch-word {
+  display: inline-block;
+  position: relative;
+  color: var(--bone);
+}
+
+/* Le mot lui-même : mirror INSTANTANÉ via steps(1), pas de shake/rotation.
+   Flicker irrégulier (luminosité) + micro-jitter (position) en continu pour
+   un effet néon-mourant grésillant. Durées premières → désynchro perpétuelle. */
+.hero h1 .glitch-word .base {
+  display: inline-block;
+  position: relative;
+  z-index: 2;
+  color: var(--bone);
+  animation: glitchMirror 7s infinite steps(1),
+             baseFlicker 11.3s infinite steps(1),
+             baseJitter 13.7s infinite steps(1);
+}
+
+/* Bandes de fracture — 4 tranches horizontales clipées. Pendant la phase
+   stable, elles sont presque invisibles (opacity ~0.04) avec micro-offsets
+   pour suggérer un signal instable. Pendant le glitch, elles deviennent
+   pleinement visibles avec offsets plus grands. */
+.hero h1 .glitch-word .frag {
+  position: absolute;
+  top: 0; left: 0;
+  width: 100%;
+  text-align: center;
+  pointer-events: none;
+  color: var(--bone);
+  z-index: 2;
+  opacity: 0;
+}
+.hero h1 .glitch-word .frag.f1 {
+  clip-path: polygon(0 0, 100% 0, 100% 22%, 0 22%);
+  animation: glitchFrag1 7s infinite linear;
+}
+.hero h1 .glitch-word .frag.f2 {
+  clip-path: polygon(0 22%, 100% 22%, 100% 48%, 0 48%);
+  animation: glitchFrag2 7s infinite linear;
+}
+.hero h1 .glitch-word .frag.f3 {
+  clip-path: polygon(0 48%, 100% 48%, 100% 72%, 0 72%);
+  animation: glitchFrag3 7s infinite linear;
+}
+.hero h1 .glitch-word .frag.f4 {
+  clip-path: polygon(0 72%, 100% 72%, 100% 100%, 0 100%);
+  animation: glitchFrag4 7s infinite linear;
+}
+
+/* Calque rouge décalé (split RGB façon ghost) */
+.hero h1 .glitch-word::before {
+  content: attr(data-text);
+  position: absolute;
+  top: 0; left: 0;
+  width: 100%;
+  text-align: center;
+  pointer-events: none;
+  opacity: 0;
+  z-index: 1;
+  color: var(--blood);
+  text-shadow: 0 0 12px rgba(196,30,30,0.7), 0 0 30px rgba(196,30,30,0.4);
+  animation: glitchGhostL 7s infinite steps(1);
+  mix-blend-mode: screen;
+}
+
+/* Halo splatter — image d'éclaboussure (fond noir) en arrière-plan
+   pendant le glitch. mix-blend-mode: screen → le noir disparait, seul
+   le rouge reste. Position/rotation aléatoires (vars set par JS). */
+.hero h1 .glitch-word .halo {
+  position: absolute;
+  top: calc(50% + var(--splat-y, 0px));
+  left: calc(50% + var(--splat-x, 0px));
+  width: var(--splat-size, 250%);
+  height: var(--splat-size, 250%);
+  z-index: 0;
+  background-image: url('img/splatter.jpg');
+  background-size: contain;
+  background-position: center;
+  background-repeat: no-repeat;
+  filter: url(#black-to-alpha);
+  pointer-events: none;
+  opacity: 0;
+  transform: translate(-50%, -50%) rotate(var(--splat-rotate, 0deg));
+  animation: glitchHalo 7s infinite steps(1);
+}
+
+/* Scanline qui balaye */
+.hero h1 .glitch-word .scan {
+  position: absolute;
+  left: -8px; right: -8px;
+  height: 14%;
+  background: linear-gradient(
+    to bottom,
+    transparent 0%,
+    rgba(255,255,255,0.04) 30%,
+    rgba(196,30,30,0.45) 50%,
+    rgba(255,255,255,0.04) 70%,
+    transparent 100%
+  );
+  mix-blend-mode: screen;
+  pointer-events: none;
+  opacity: 0;
+  z-index: 3;
+  animation: glitchScan 7s infinite linear;
+}
+
+.hero h1 .glitch-word > .slice,
+.hero h1 .glitch-word > .drips { display: none; }
+
+/* ── Animations ──────────────────────────────────────────────────────────── */
+
+/* Mirror INSTANTANÉ — snap direct, hold pendant tout le glitch.
+   Le mot original disparait, les fragments mirror restent statiques. */
+@keyframes glitchMirror {
+  0%, 38% { opacity: 1; }
+  39%, 47% { opacity: 0; }
+  47.001%, 70% { opacity: 1; }
+  71%, 75% { opacity: 0; }
+  75.001%, 100% { opacity: 1; }
+}
+
+/* Flicker irrégulier — luminosité qui dip à des intervalles imprévisibles,
+   durées variables (60ms → 800ms), façon néon mourant. */
+@keyframes baseFlicker {
+  0%, 100% { filter: brightness(1); }
+  2.1% { filter: brightness(0.55); }
+  2.4% { filter: brightness(1); }
+  9.7% { filter: brightness(0.85); }
+  9.9% { filter: brightness(1); }
+  14.3% { filter: brightness(0.4); }
+  14.5% { filter: brightness(0.95); }
+  14.8% { filter: brightness(1); }
+  23.6% { filter: brightness(0.65); }
+  23.7% { filter: brightness(1); }
+  29.1% { filter: brightness(0.5); }
+  29.4% { filter: brightness(1); }
+  37.8% { filter: brightness(0.8); }
+  37.9% { filter: brightness(1); }
+  41.2% { filter: brightness(0.45); }
+  41.4% { filter: brightness(0.9); }
+  41.6% { filter: brightness(1); }
+  52.7% { filter: brightness(0.7); }
+  52.85% { filter: brightness(1); }
+  58.4% { filter: brightness(0.55); }
+  58.7% { filter: brightness(1); }
+  66.1% { filter: brightness(0.85); }
+  66.2% { filter: brightness(1); }
+  73.5% { filter: brightness(0.4); }
+  73.6% { filter: brightness(0.85); }
+  73.8% { filter: brightness(1); }
+  81.9% { filter: brightness(0.6); }
+  82% { filter: brightness(1); }
+  88.4% { filter: brightness(0.5); }
+  88.7% { filter: brightness(0.95); }
+  89% { filter: brightness(1); }
+  95.3% { filter: brightness(0.7); }
+  95.4% { filter: brightness(1); }
+}
+
+/* Micro-jitter — positions irrégulières (≤1px) pour un grésillement subtil
+   façon signal vidéo instable. */
+@keyframes baseJitter {
+  0%, 100% { transform: translate(0, 0); }
+  4.3% { transform: translate(0.5px, 0); }
+  4.5% { transform: translate(0, 0); }
+  11.2% { transform: translate(-0.5px, 0); }
+  11.4% { transform: translate(0, 0); }
+  18.8% { transform: translate(0, 0.5px); }
+  19% { transform: translate(0, 0); }
+  26.5% { transform: translate(1px, 0); }
+  26.6% { transform: translate(0, 0); }
+  33.1% { transform: translate(-0.5px, -0.5px); }
+  33.3% { transform: translate(0, 0); }
+  41.7% { transform: translate(0.5px, 0); }
+  41.9% { transform: translate(0, 0); }
+  48.4% { transform: translate(-1px, 0); }
+  48.6% { transform: translate(0, 0); }
+  55.2% { transform: translate(0.5px, 0.5px); }
+  55.3% { transform: translate(0, 0); }
+  62.6% { transform: translate(0, -0.5px); }
+  62.8% { transform: translate(0, 0); }
+  69.1% { transform: translate(-0.5px, 0); }
+  69.3% { transform: translate(0, 0); }
+  76.7% { transform: translate(0.5px, 0); }
+  76.9% { transform: translate(0, 0); }
+  84.3% { transform: translate(-0.5px, 0.5px); }
+  84.4% { transform: translate(0, 0); }
+  91.8% { transform: translate(1px, 0); }
+  91.9% { transform: translate(0, 0); }
+  97.2% { transform: translate(-0.5px, 0); }
+  97.4% { transform: translate(0, 0); }
+}
+
+/* Fragments — décalent en place, puis dérivent légèrement pendant le hold
+   pour un mouvement subtil sans grésiller. */
+@keyframes glitchFrag1 {
+  0%, 38% { opacity: 0; transform: translateX(0) scaleX(1); }
+  /* micro-flashes pendant la phase stable */
+  6.1% { opacity: 0.12; transform: translateX(-1px) scaleX(1); }
+  6.3% { opacity: 0; transform: translateX(0) scaleX(1); }
+  21.7% { opacity: 0.08; transform: translateX(1px) scaleX(1); }
+  21.85% { opacity: 0; transform: translateX(0) scaleX(1); }
+  /* glitch principal */
+  39% { opacity: 1; transform: translateX(-7px) scaleX(-1); }
+  47% { opacity: 1; transform: translateX(-9px) scaleX(-1); }
+  47.001%, 70% { opacity: 0; transform: translateX(0) scaleX(1); }
+  /* autre micro-flash */
+  58.4% { opacity: 0.1; transform: translateX(-1px) scaleX(1); }
+  58.55% { opacity: 0; transform: translateX(0) scaleX(1); }
+  /* glitch #2 */
+  71% { opacity: 1; transform: translateX(-5px) scaleX(-1); }
+  75% { opacity: 1; transform: translateX(-7px) scaleX(-1); }
+  75.001%, 100% { opacity: 0; transform: translateX(0) scaleX(1); }
+  /* dernier micro-flash */
+  88.2% { opacity: 0.09; transform: translateX(0.5px) scaleX(1); }
+  88.4% { opacity: 0; transform: translateX(0) scaleX(1); }
+}
+@keyframes glitchFrag2 {
+  0%, 38% { opacity: 0; transform: translateX(0) scaleX(1); }
+  11.4% { opacity: 0.08; transform: translateX(1px) scaleX(1); }
+  11.6% { opacity: 0; transform: translateX(0) scaleX(1); }
+  29.3% { opacity: 0.1; transform: translateX(-0.5px) scaleX(1); }
+  29.45% { opacity: 0; transform: translateX(0) scaleX(1); }
+  39% { opacity: 1; transform: translateX(8px) scaleX(-1); }
+  47% { opacity: 1; transform: translateX(6px) scaleX(-1); }
+  47.001%, 70% { opacity: 0; transform: translateX(0) scaleX(1); }
+  64.7% { opacity: 0.07; transform: translateX(1px) scaleX(1); }
+  64.85% { opacity: 0; transform: translateX(0) scaleX(1); }
+  71% { opacity: 1; transform: translateX(6px) scaleX(-1); }
+  75% { opacity: 1; transform: translateX(4px) scaleX(-1); }
+  75.001%, 100% { opacity: 0; transform: translateX(0) scaleX(1); }
+  93.6% { opacity: 0.1; transform: translateX(-1px) scaleX(1); }
+  93.8% { opacity: 0; transform: translateX(0) scaleX(1); }
+}
+@keyframes glitchFrag3 {
+  0%, 38% { opacity: 0; transform: translateX(0) scaleX(1); }
+  3.8% { opacity: 0.1; transform: translateX(0.5px) scaleX(1); }
+  4% { opacity: 0; transform: translateX(0) scaleX(1); }
+  16.9% { opacity: 0.08; transform: translateX(-1px) scaleX(1); }
+  17.05% { opacity: 0; transform: translateX(0) scaleX(1); }
+  33.4% { opacity: 0.11; transform: translateX(1px) scaleX(1); }
+  33.55% { opacity: 0; transform: translateX(0) scaleX(1); }
+  39% { opacity: 1; transform: translateX(-4px) scaleX(-1); }
+  47% { opacity: 1; transform: translateX(-6px) scaleX(-1); }
+  47.001%, 70% { opacity: 0; transform: translateX(0) scaleX(1); }
+  53.2% { opacity: 0.07; transform: translateX(0.5px) scaleX(1); }
+  53.4% { opacity: 0; transform: translateX(0) scaleX(1); }
+  68.1% { opacity: 0.09; transform: translateX(-1px) scaleX(1); }
+  68.25% { opacity: 0; transform: translateX(0) scaleX(1); }
+  71% { opacity: 1; transform: translateX(-3px) scaleX(-1); }
+  75% { opacity: 1; transform: translateX(-5px) scaleX(-1); }
+  75.001%, 100% { opacity: 0; transform: translateX(0) scaleX(1); }
+  82.7% { opacity: 0.08; transform: translateX(1px) scaleX(1); }
+  82.85% { opacity: 0; transform: translateX(0) scaleX(1); }
+}
+@keyframes glitchFrag4 {
+  0%, 38% { opacity: 0; transform: translateX(0) scaleX(1); }
+  8.4% { opacity: 0.09; transform: translateX(1px) scaleX(1); }
+  8.6% { opacity: 0; transform: translateX(0) scaleX(1); }
+  25.1% { opacity: 0.11; transform: translateX(-0.5px) scaleX(1); }
+  25.3% { opacity: 0; transform: translateX(0) scaleX(1); }
+  39% { opacity: 1; transform: translateX(5px) scaleX(-1); }
+  47% { opacity: 1; transform: translateX(8px) scaleX(-1); }
+  47.001%, 70% { opacity: 0; transform: translateX(0) scaleX(1); }
+  61.5% { opacity: 0.08; transform: translateX(1px) scaleX(1); }
+  61.65% { opacity: 0; transform: translateX(0) scaleX(1); }
+  71% { opacity: 1; transform: translateX(4px) scaleX(-1); }
+  75% { opacity: 1; transform: translateX(6px) scaleX(-1); }
+  75.001%, 100% { opacity: 0; transform: translateX(0) scaleX(1); }
+  85.9% { opacity: 0.1; transform: translateX(-1px) scaleX(1); }
+  86.05% { opacity: 0; transform: translateX(0) scaleX(1); }
+}
+
+/* Ghost rouge — apparaît, hold, disparaît */
+@keyframes glitchGhostL {
+  0%, 38% { opacity: 0; transform: translate(0, 0); }
+  39%, 47% { opacity: 0.85; transform: translate(-12px, 0) scaleX(-1); }
+  47.001%, 70% { opacity: 0; }
+  71%, 75% { opacity: 0.7; transform: translate(-10px, 0) scaleX(-1); }
+  75.001%, 100% { opacity: 0; }
+}
+@keyframes glitchGhostR {
+  0%, 38% { opacity: 0; transform: translate(0, 0); }
+  39%, 47% { opacity: 0.6; transform: translate(10px, 0) scaleX(-1); }
+  47.001%, 70% { opacity: 0; }
+  71%, 75% { opacity: 0.5; transform: translate(8px, 0) scaleX(-1); }
+  75.001%, 100% { opacity: 0; }
+}
+
+@keyframes glitchHalo {
+  0%, 38% { opacity: 0; }
+  39% { opacity: calc(0.4 * var(--splat-opacity, 1)); }
+  43% { opacity: calc(0.5 * var(--splat-opacity, 1)); }
+  47% { opacity: calc(0.45 * var(--splat-opacity, 1)); }
+  47.001%, 70% { opacity: 0; }
+  71% { opacity: calc(0.5 * var(--splat-opacity, 1)); }
+  75% { opacity: calc(0.4 * var(--splat-opacity, 1)); }
+  75.001%, 100% { opacity: 0; }
+}
+
+@keyframes glitchScan {
+  0%, 38% { opacity: 0; top: -20%; }
+  /* Passage unique top→bottom, plus lent et lisible */
+  39%   { opacity: 0.9; top: -20%; }
+  47%   { opacity: 0.9; top: 110%; }
+  47.01%, 70% { opacity: 0; top: -20%; }
+  71%   { opacity: 0.7; top: -20%; }
+  75%   { opacity: 0.7; top: 110%; }
+  75.01%, 100% { opacity: 0; top: -20%; }
+}
+/* ===== BAR — texte simple rouge =========================================== */
+.hero h1 .neon-bar {
+  display: block;
+  font-size: var(--bar-size, 0.55em);
+  letter-spacing: var(--bar-spacing, 0.14em);
+  margin-top: 14px;
+  font-family: var(--display);
+  font-weight: 900;
+  color: var(--bar-color, #c41e1e);
+}
+.hero h1 .neon-bar .letter { display: inline-block; }
+.hero-sub {
+  font-family: var(--typer);
+  font-size: 18px;
+  color: var(--bone-2);
+  max-width: 480px;
+  margin-bottom: 40px;
+  line-height: 1.6;
+}
+.hero-cta-row {
+  display: flex;
+  gap: 16px;
+  align-items: center;
+}
+.btn {
+  font-family: var(--mono);
+  font-size: 11px;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  padding: 18px 32px;
+  border: none;
+  cursor: url('skeleton-32.png') 7 0, pointer;
+  position: relative;
+  transition: all .2s;
+}
+.btn-primary {
+  background: var(--blood);
+  color: var(--bone);
+}
+.btn-primary:hover { background: var(--neon); color: var(--ink); }
+.btn-ghost {
+  background: transparent;
+  color: var(--bone);
+  border: 1px solid var(--bone-2);
+}
+.btn-ghost:hover { border-color: var(--blood); color: var(--blood); }
+
+/* Hero right — vertical info column */
+.hero-side {
+  position: relative;
+  z-index: 2;
+  border-left: 1px solid var(--smoke);
+  padding-left: 48px;
+  display: flex;
+  flex-direction: column;
+  gap: 32px;
+}
+.info-block {
+  display: flex;
+  gap: 16px;
+  align-items: flex-start;
+}
+.info-block .num {
+  font-family: var(--display);
+  color: var(--blood);
+  font-size: 28px;
+  letter-spacing: -0.02em;
+  min-width: 56px;
+}
+.info-block .label {
+  font-family: var(--mono);
+  font-size: 10px;
+  letter-spacing: 0.3em;
+  text-transform: uppercase;
+  color: var(--bone-2);
+  margin-bottom: 8px;
+}
+.info-block .value {
+  font-family: var(--typer);
+  font-size: 17px;
+  color: var(--bone);
+  line-height: 1.4;
+}
+.info-block .value strong {
+  color: var(--neon);
+  font-weight: normal;
+}
+
+/* Hero ticker (REDRUM/MURDER) */
+.ticker {
+  position: relative;
+  background: var(--blood);
+  color: var(--bone);
+  padding: 14px 0;
+  overflow: hidden;
+  font-family: var(--display);
+  font-size: 24px;
+  letter-spacing: 0.1em;
+  white-space: nowrap;
+  z-index: 2;
+}
+.ticker-track {
+  display: inline-flex;
+  gap: 40px;
+  animation: scroll 30s linear infinite;
+  padding-left: 40px;
+}
+.ticker span { display: inline-block; }
+.ticker .skull {
+  color: var(--ink);
+  font-family: var(--mono);
+  font-size: 20px;
+}
+@keyframes scroll {
+  from { transform: translateX(0); }
+  to { transform: translateX(-50%); }
+}
+
+/* Section: signature drinks teaser */
+.signature {
+  padding: 120px 64px;
+  background: var(--ink);
+  position: relative;
+  border-top: 1px solid var(--smoke);
+  border-bottom: 1px solid var(--smoke);
+}
+.section-head {
+  display: grid;
+  grid-template-columns: auto 1fr auto;
+  gap: 32px;
+  align-items: end;
+  margin-bottom: 64px;
+}
+.section-num {
+  font-family: var(--display);
+  font-size: 14px;
+  color: var(--blood);
+  letter-spacing: 0.1em;
+}
+.section-title {
+  font-family: var(--display);
+  font-size: clamp(40px, 6vw, 80px);
+  line-height: 0.9;
+  color: var(--bone);
+  letter-spacing: -0.03em;
+}
+.section-title .accent { color: var(--blood); }
+.section-meta {
+  font-family: var(--mono);
+  font-size: 11px;
+  text-transform: uppercase;
+  letter-spacing: 0.2em;
+  color: var(--bone-2);
+  text-align: right;
+}
+
+.drinks-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 1px;
+  background: var(--smoke);
+  border: 1px solid var(--smoke);
+}
+.drink-card {
+  background: var(--ink);
+  padding: 40px 32px;
+  position: relative;
+  transition: background .25s;
+  cursor: url('skeleton-32.png') 7 0, pointer;
+}
+.drink-card:hover {
+  background: var(--ink-2);
+}
+.drink-card:hover .drink-name { color: var(--blood); }
+.drink-card .drink-num {
+  font-family: var(--mono);
+  font-size: 10px;
+  letter-spacing: 0.3em;
+  color: var(--bone-2);
+  margin-bottom: 24px;
+  display: flex;
+  justify-content: space-between;
+}
+.drink-card .drink-name {
+  font-family: var(--display);
+  font-size: 32px;
+  line-height: 0.95;
+  color: var(--bone);
+  margin-bottom: 16px;
+  letter-spacing: -0.02em;
+  transition: color .25s;
+}
+.drink-card .drink-desc {
+  font-family: var(--typer);
+  font-size: 14px;
+  color: var(--bone-2);
+  line-height: 1.5;
+  margin-bottom: 24px;
+  min-height: 60px;
+}
+.drink-card .drink-meta {
+  display: flex;
+  justify-content: space-between;
+  align-items: end;
+  padding-top: 16px;
+  border-top: 1px dashed var(--smoke);
+}
+.drink-card .drink-price {
+  font-family: var(--display);
+  font-size: 24px;
+  color: var(--neon);
+}
+.drink-card .drink-tag {
+  font-family: var(--mono);
+  font-size: 10px;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: var(--blood);
+}
+
+/* ---------- Marquee accent strip ---------- */
+.strip {
+  background: var(--bone);
+  color: var(--ink);
+  padding: 60px;
+  position: relative;
+  overflow: hidden;
+}
+.strip-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 32px;
+  align-items: center;
+}
+.strip-item {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+.strip-item .stat {
+  font-family: var(--display);
+  font-size: 64px;
+  line-height: 1;
+  color: var(--ink);
+  letter-spacing: -0.04em;
+}
+.strip-item .stat .red { color: var(--blood); }
+.strip-item .label {
+  font-family: var(--mono);
+  font-size: 11px;
+  letter-spacing: 0.3em;
+  text-transform: uppercase;
+  color: var(--rust);
+}
+
+/* ===================== CARTE / MENU ===================== */
+.menu-page {
+  padding: 64px;
+  min-height: 100vh;
+}
+.menu-hero {
+  margin-bottom: 80px;
+  position: relative;
+}
+.menu-hero h2 {
+  font-family: var(--display);
+  font-size: clamp(80px, 14vw, 200px);
+  line-height: 0.85;
+  letter-spacing: -0.04em;
+  color: var(--bone);
+}
+.menu-hero h2 .crossed {
+  position: relative;
+  display: inline-block;
+  color: var(--blood);
+}
+.menu-hero h2 .crossed::after {
+  content: '';
+  position: absolute;
+  left: -8px; right: -8px;
+  top: 52%;
+  height: 12px;
+  background: var(--blood);
+  transform: rotate(-2deg);
+  z-index: -1;
+  opacity: 0.3;
+}
+.menu-hero .menu-sub {
+  font-family: var(--typer);
+  font-size: 18px;
+  color: var(--bone-2);
+  margin-top: 24px;
+  max-width: 600px;
+}
+
+.menu-tabs {
+  display: flex;
+  gap: 4px;
+  margin-bottom: 40px;
+  border-bottom: 1px solid var(--smoke);
+  padding-bottom: 0;
+}
+.menu-tab {
+  background: none;
+  border: none;
+  color: var(--bone-2);
+  font-family: var(--display);
+  font-size: 14px;
+  letter-spacing: 0.1em;
+  padding: 16px 24px;
+  cursor: url('skeleton-32.png') 7 0, pointer;
+  position: relative;
+  transition: color .2s;
+}
+.menu-tab:hover { color: var(--bone); }
+.menu-tab.active { color: var(--blood); }
+.menu-tab.active::after {
+  content: '';
+  position: absolute;
+  bottom: -1px; left: 0; right: 0;
+  height: 3px;
+  background: var(--blood);
+}
+
+.menu-list {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 0 80px;
+}
+.menu-cat { display: none; }
+.menu-cat.active { display: contents; }
+.menu-item {
+  display: grid;
+  grid-template-columns: auto 1fr auto;
+  gap: 16px;
+  align-items: baseline;
+  padding: 24px 0;
+  border-bottom: 1px dashed var(--smoke);
+  cursor: url('skeleton-32.png') 7 0, pointer;
+  transition: padding-left .2s;
+}
+.menu-item:hover { padding-left: 12px; }
+.menu-item:hover .menu-item-name { color: var(--blood); }
+.menu-item .menu-item-num {
+  font-family: var(--mono);
+  font-size: 11px;
+  color: var(--bone-2);
+  letter-spacing: 0.1em;
+}
+.menu-item .menu-item-body { display: flex; flex-direction: column; gap: 6px; }
+.menu-item .menu-item-name {
+  font-family: var(--display);
+  font-size: 22px;
+  color: var(--bone);
+  letter-spacing: -0.01em;
+  transition: color .2s;
+}
+.menu-item .menu-item-desc {
+  font-family: var(--typer);
+  font-size: 13px;
+  color: var(--bone-2);
+  line-height: 1.4;
+}
+.menu-item .menu-item-price {
+  font-family: var(--display);
+  font-size: 20px;
+  color: var(--neon);
+  letter-spacing: -0.02em;
+}
+
+/* ===================== EVENTS ===================== */
+.events-page { padding: 64px; min-height: 100vh; }
+.events-hero {
+  display: grid;
+  grid-template-columns: 1fr auto;
+  align-items: end;
+  margin-bottom: 80px;
+  gap: 32px;
+}
+.events-hero h2 {
+  font-family: var(--display);
+  font-size: clamp(80px, 14vw, 200px);
+  line-height: 0.85;
+  letter-spacing: -0.04em;
+  color: var(--bone);
+}
+.events-hero h2 .alt {
+  display: block;
+  font-family: var(--display);
+  color: var(--blood);
+  font-size: 0.6em;
+}
+.events-hero .meta {
+  font-family: var(--mono);
+  font-size: 11px;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: var(--bone-2);
+  text-align: right;
+  line-height: 2;
+}
+
+.events-list {
+  display: flex;
+  flex-direction: column;
+  border-top: 1px solid var(--smoke);
+}
+.event-row {
+  display: grid;
+  grid-template-columns: 120px 100px 1fr auto auto;
+  gap: 32px;
+  align-items: center;
+  padding: 32px 0;
+  border-bottom: 1px solid var(--smoke);
+  position: relative;
+  transition: background .25s;
+  cursor: url('skeleton-32.png') 7 0, pointer;
+}
+.event-row::before {
+  content: '';
+  position: absolute;
+  left: -64px; right: -64px;
+  top: 0; bottom: 0;
+  background: var(--blood);
+  z-index: -1;
+  transform: scaleX(0);
+  transform-origin: left;
+  transition: transform .35s cubic-bezier(.7,0,.3,1);
+}
+.event-row:hover::before { transform: scaleX(1); }
+.event-row:hover .event-name { color: var(--bone); }
+.event-row:hover .event-date,
+.event-row:hover .event-tag,
+.event-row:hover .event-time,
+.event-row:hover .event-price { color: var(--bone); }
+
+.event-date {
+  font-family: var(--display);
+  font-size: 14px;
+  letter-spacing: 0.05em;
+  color: var(--blood);
+  line-height: 1.2;
+  transition: color .25s;
+}
+.event-date .day {
+  display: block;
+  font-size: 56px;
+  color: var(--bone);
+  letter-spacing: -0.04em;
+  line-height: 0.9;
+  transition: color .25s;
+}
+.event-time {
+  font-family: var(--mono);
+  font-size: 12px;
+  color: var(--bone-2);
+  letter-spacing: 0.15em;
+  transition: color .25s;
+}
+.event-name {
+  font-family: var(--display);
+  font-size: 36px;
+  letter-spacing: -0.02em;
+  color: var(--bone);
+  line-height: 1;
+  transition: color .25s;
+}
+.event-name .sub {
+  display: block;
+  font-family: var(--typer);
+  font-size: 14px;
+  color: var(--bone-2);
+  margin-top: 8px;
+  letter-spacing: 0;
+  transition: color .25s;
+}
+.event-row:hover .event-name .sub { color: var(--bone); }
+.event-tag {
+  font-family: var(--mono);
+  font-size: 10px;
+  letter-spacing: 0.25em;
+  text-transform: uppercase;
+  color: var(--neon);
+  border: 1px solid currentColor;
+  padding: 6px 12px;
+  transition: color .25s;
+}
+.event-price {
+  font-family: var(--display);
+  font-size: 22px;
+  color: var(--neon);
+  transition: color .25s;
+}
+.event-price.free { color: var(--bone); }
+
+/* ===================== GALERIE ===================== */
+.gallery-page { padding: 64px; min-height: 100vh; }
+.gallery-hero {
+  margin-bottom: 64px;
+}
+.gallery-hero h2 {
+  font-family: var(--display);
+  font-size: clamp(80px, 14vw, 200px);
+  line-height: 0.85;
+  letter-spacing: -0.04em;
+  color: var(--bone);
+}
+.gallery-hero .red { color: var(--blood); }
+.gallery-hero .sub {
+  font-family: var(--typer);
+  color: var(--bone-2);
+  font-size: 18px;
+  margin-top: 24px;
+  max-width: 600px;
+}
+
+.gallery-grid {
+  display: grid;
+  grid-template-columns: repeat(12, 1fr);
+  grid-auto-rows: 80px;
+  gap: 8px;
+}
+.tile {
+  position: relative;
+  overflow: hidden;
+  background: var(--ink-2);
+  cursor: url('skeleton-32.png') 7 0, pointer;
+  border: 1px solid var(--smoke);
+}
+.tile-inner {
+  position: absolute;
+  inset: 0;
+  display: grid;
+  place-items: center;
+  background-size: cover;
+  background-position: center;
+  filter: grayscale(0.4) contrast(1.1) brightness(0.7);
+  transition: filter .35s, transform .5s;
+}
+.tile:hover .tile-inner {
+  filter: grayscale(0) contrast(1.2) brightness(0.9);
+  transform: scale(1.04);
+}
+.tile-overlay {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(to top, rgba(10,9,8,0.85), transparent 50%);
+  z-index: 2;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  padding: 16px;
+  opacity: 1;
+  transition: opacity .25s;
+}
+.tile-overlay .tag {
+  font-family: var(--mono);
+  font-size: 10px;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: var(--blood);
+  margin-bottom: 4px;
+}
+.tile-overlay .cap {
+  font-family: var(--display);
+  font-size: 14px;
+  color: var(--bone);
+  letter-spacing: -0.01em;
+}
+.tile .timestamp {
+  position: absolute;
+  top: 10px; left: 12px;
+  font-family: var(--mono);
+  font-size: 10px;
+  color: var(--bone);
+  letter-spacing: 0.1em;
+  z-index: 3;
+  background: rgba(10,9,8,0.7);
+  padding: 4px 8px;
+  border: 1px solid var(--blood);
+}
+
+/* Bento layout — varied sizes */
+.tile.s1 { grid-column: span 4; grid-row: span 4; }
+.tile.s2 { grid-column: span 3; grid-row: span 3; }
+.tile.s3 { grid-column: span 5; grid-row: span 3; }
+.tile.s4 { grid-column: span 4; grid-row: span 3; }
+.tile.s5 { grid-column: span 3; grid-row: span 4; }
+.tile.s6 { grid-column: span 5; grid-row: span 4; }
+.tile.s7 { grid-column: span 4; grid-row: span 3; }
+.tile.s8 { grid-column: span 6; grid-row: span 3; }
+.tile.s9 { grid-column: span 6; grid-row: span 3; }
+.tile.s10 { grid-column: span 4; grid-row: span 3; }
+.tile.s11 { grid-column: span 4; grid-row: span 3; }
+.tile.s12 { grid-column: span 4; grid-row: span 3; }
+
+/* Image placeholder generator */
+.tile-inner.ph1 { background: linear-gradient(135deg, #2a1a1a, #6b2a1f), repeating-linear-gradient(45deg, transparent 0 8px, rgba(0,0,0,.2) 8px 16px); }
+.tile-inner.ph2 { background: linear-gradient(180deg, #14110f 0%, #c41e1e 100%); }
+.tile-inner.ph3 { background: radial-gradient(circle at 50% 30%, #f5d547, #14110f 70%); }
+.tile-inner.ph4 { background: linear-gradient(45deg, #0a0908 0%, #6b2a1f 50%, #c41e1e 100%); }
+.tile-inner.ph5 { background: radial-gradient(circle at 70% 50%, #c41e1e, #0a0908 70%); }
+.tile-inner.ph6 { background: linear-gradient(160deg, #14110f, #c41e1e 80%, #f5d547); }
+.tile-inner.ph7 { background: linear-gradient(0deg, #0a0908, #6b2a1f); }
+.tile-inner.ph8 { background: radial-gradient(ellipse at 30% 70%, #f5d547, #14110f 50%, #0a0908); }
+.tile-inner.ph9 { background: linear-gradient(225deg, #c41e1e 0%, #0a0908 60%); }
+.tile-inner.ph10 { background: linear-gradient(135deg, #6b2a1f, #14110f 50%, #f5d547); }
+.tile-inner.ph11 { background: radial-gradient(circle at 50% 50%, #c41e1e 0%, #14110f 60%); }
+.tile-inner.ph12 { background: linear-gradient(90deg, #14110f, #c41e1e 50%, #14110f); }
+
+.tile-inner::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 200 200'><filter id='n'><feTurbulence baseFrequency='1.2' numOctaves='2'/></filter><rect width='200' height='200' filter='url(%23n)' opacity='0.4'/></svg>");
+  mix-blend-mode: overlay;
+  opacity: 0.5;
+  pointer-events: none;
+}
+
+/* ===================== ABOUT / CONTACT ===================== */
+.about-page { padding: 0; min-height: 100vh; }
+.about-hero {
+  padding: 64px;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 64px;
+  align-items: center;
+  min-height: 80vh;
+  position: relative;
+}
+.about-hero::before {
+  content: 'ROOM 237';
+  position: absolute;
+  top: 100px;
+  right: 32px;
+  font-family: var(--display);
+  font-size: 14px;
+  color: var(--blood);
+  letter-spacing: 0.3em;
+  border: 1px solid var(--blood);
+  padding: 8px 16px;
+}
+.about-hero h2 {
+  font-family: var(--display);
+  font-size: clamp(80px, 14vw, 200px);
+  line-height: 0.9;
+  letter-spacing: -0.04em;
+  color: var(--bone);
+  margin-bottom: 32px;
+}
+.about-hero h2 .red { color: var(--blood); }
+.about-hero p {
+  font-family: var(--typer);
+  font-size: 18px;
+  color: var(--bone);
+  line-height: 1.7;
+  margin-bottom: 20px;
+}
+.about-hero p strong {
+  color: var(--neon);
+  font-weight: normal;
+  font-style: italic;
+}
+
+.about-visual {
+  position: relative;
+  aspect-ratio: 1 / 1.1;
+  background: linear-gradient(135deg, #14110f 0%, #6b2a1f 50%, #c41e1e 100%);
+  border: 1px solid var(--smoke);
+  overflow: hidden;
+  display: grid;
+  place-items: center;
+}
+.about-visual::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background-image: url("data:image/svg+xml;utf8,<svg width='60' height='52' viewBox='0 0 60 52' xmlns='http://www.w3.org/2000/svg'><polygon points='15,0 45,0 60,26 45,52 15,52 0,26' fill='none' stroke='%23f4ede4' stroke-width='1' opacity='0.3'/></svg>");
+  background-size: 60px 52px;
+  mix-blend-mode: overlay;
+}
+.about-visual::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 200 200'><filter id='n'><feTurbulence baseFrequency='0.9' numOctaves='3'/></filter><rect width='200' height='200' filter='url(%23n)' opacity='0.5'/></svg>");
+  mix-blend-mode: overlay;
+  opacity: 0.6;
+}
+.about-visual .blood-text {
+  position: relative;
+  z-index: 2;
+  font-family: var(--glitch);
+  font-size: clamp(60px, 10vw, 140px);
+  color: var(--blood);
+  letter-spacing: 0.05em;
+  text-shadow: 0 0 30px rgba(196, 30, 30, 0.6);
+  filter: blur(0.4px);
+  transform: rotate(-2deg);
+}
+.about-visual .blood-drips {
+  position: absolute;
+  top: 50%; left: 0; right: 0;
+  height: 50%;
+  z-index: 1;
+}
+.about-visual .blood-drips::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background-image:
+    linear-gradient(180deg, var(--blood) 0%, transparent 60%);
+  opacity: 0.4;
+  mask-image: radial-gradient(ellipse 80% 50% at 50% 0%, black 30%, transparent 70%);
+  -webkit-mask-image: radial-gradient(ellipse 80% 50% at 50% 0%, black 30%, transparent 70%);
+}
+
+.about-meta {
+  background: var(--bone);
+  color: var(--ink);
+  padding: 80px 64px;
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+  gap: 64px;
+  position: relative;
+}
+.about-meta::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 200 200'><filter id='n'><feTurbulence baseFrequency='1.5' numOctaves='2'/></filter><rect width='200' height='200' filter='url(%23n)' opacity='0.3'/></svg>");
+  mix-blend-mode: multiply;
+  opacity: 0.3;
+  pointer-events: none;
+}
+.meta-block { position: relative; z-index: 2; }
+.meta-block h3 {
+  font-family: var(--display);
+  font-size: 14px;
+  letter-spacing: 0.1em;
+  color: var(--blood);
+  margin-bottom: 24px;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+.meta-block h3::before {
+  content: '';
+  width: 24px; height: 1px;
+  background: var(--blood);
+}
+.meta-block .big {
+  font-family: var(--display);
+  font-size: 36px;
+  line-height: 1.05;
+  color: var(--ink);
+  margin-bottom: 16px;
+  letter-spacing: -0.02em;
+}
+.meta-block p {
+  font-family: var(--typer);
+  font-size: 15px;
+  line-height: 1.6;
+  color: var(--ink-2);
+}
+.hours-table {
+  font-family: var(--mono);
+  font-size: 13px;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+.hours-row {
+  display: flex;
+  justify-content: space-between;
+  padding: 6px 0;
+  border-bottom: 1px dashed rgba(0,0,0,0.15);
+}
+.hours-row .day { letter-spacing: 0.1em; text-transform: uppercase; color: var(--ink-2); }
+.hours-row .time { color: var(--ink); font-weight: 500; }
+.hours-row.closed .time { color: var(--blood); }
+.hours-row.tonight {
+  background: var(--blood);
+  color: var(--bone);
+  padding: 8px 12px;
+  margin: 0 -12px;
+  border-bottom: none;
+}
+.hours-row.tonight .day,
+.hours-row.tonight .time { color: var(--bone); }
+
+.socials {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+.social-link {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 14px 0;
+  border-bottom: 1px solid rgba(0,0,0,0.2);
+  font-family: var(--mono);
+  font-size: 13px;
+  letter-spacing: 0.05em;
+  color: var(--ink);
+  text-decoration: none;
+  cursor: url('skeleton-32.png') 7 0, pointer;
+  transition: padding-left .2s, color .2s;
+}
+.social-link:hover { padding-left: 12px; color: var(--blood); }
+.social-link .arrow {
+  font-family: var(--display);
+  color: var(--blood);
+  transition: transform .2s;
+}
+.social-link:hover .arrow { transform: translateX(8px); }
+
+/* ===================== FOOTER ===================== */
+.footer {
+  background: var(--ink);
+  border-top: 1px solid var(--blood);
+  padding: 80px 64px 32px;
+  position: relative;
+}
+.footer-big {
+  font-family: var(--display);
+  font-size: clamp(80px, 18vw, 280px);
+  line-height: 0.85;
+  letter-spacing: -0.04em;
+  color: var(--ink-2);
+  -webkit-text-stroke: 1px var(--blood);
+  margin-bottom: 64px;
+  text-align: center;
+}
+.footer-grid {
+  display: grid;
+  grid-template-columns: 2fr 1fr 1fr 1fr;
+  gap: 48px;
+  padding-bottom: 32px;
+  border-bottom: 1px solid var(--smoke);
+}
+.footer-col h4 {
+  font-family: var(--mono);
+  font-size: 10px;
+  letter-spacing: 0.3em;
+  text-transform: uppercase;
+  color: var(--blood);
+  margin-bottom: 20px;
+}
+.footer-col p,
+.footer-col a {
+  font-family: var(--typer);
+  font-size: 14px;
+  color: var(--bone-2);
+  line-height: 1.7;
+  text-decoration: none;
+  display: block;
+  cursor: url('skeleton-32.png') 7 0, pointer;
+}
+.footer-col a:hover { color: var(--neon); }
+.footer-bottom {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding-top: 24px;
+  font-family: var(--mono);
+  font-size: 10px;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: var(--bone-2);
+}
+.footer-bottom .warning {
+  color: var(--blood);
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+.footer-bottom .warning::before {
+  content: '⚠';
+  font-size: 14px;
+}
+
+/* ---------- Reveal animation ---------- */
+.reveal {
+  opacity: 0;
+  transform: translateY(20px);
+  transition: opacity .6s, transform .6s;
+}
+.reveal.in {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* ---------- Loading splash ---------- */
+.splash {
+  position: fixed;
+  inset: 0;
+  background: var(--ink);
+  z-index: 10000;
+  display: grid;
+  place-items: center;
+  pointer-events: none;
+  transition: opacity .6s, visibility .6s;
+}
+.splash.hidden { opacity: 0; visibility: hidden; }
+.splash-content { text-align: center; }
+.splash-content .word {
+  font-family: var(--display);
+  font-size: clamp(60px, 12vw, 160px);
+  color: var(--blood);
+  letter-spacing: 0.05em;
+  animation: splashGlitch .15s steps(2) infinite;
+}
+.splash-content .sub {
+  font-family: var(--mono);
+  font-size: 12px;
+  letter-spacing: 0.4em;
+  color: var(--bone-2);
+  margin-top: 16px;
+  text-transform: uppercase;
+}
+@keyframes splashGlitch {
+  0% { transform: translate(0,0); }
+  25% { transform: translate(-1px, 1px); }
+  50% { transform: translate(1px, -1px); }
+  75% { transform: translate(-1px, -1px); }
+}
+
+/* ---------- Responsive (basique, mobile-friendly fallback) ---------- */
+@media (max-width: 900px) {
+  .hero { grid-template-columns: 1fr; padding: 32px; gap: 48px; }
+  .hero-side { border-left: none; border-top: 1px solid var(--smoke); padding-left: 0; padding-top: 32px; }
+  .drinks-grid, .strip-grid, .menu-list, .about-hero, .about-meta, .footer-grid { grid-template-columns: 1fr; }
+  .events-hero { grid-template-columns: 1fr; }
+  .event-row { grid-template-columns: auto 1fr; gap: 16px; }
+  .event-row .event-time, .event-row .event-tag, .event-row .event-price { display: none; }
+  .menu-page, .events-page, .gallery-page, .signature, .strip, .about-meta, .footer { padding: 32px; }
+  .topbar nav { display: none; }
+  .gallery-grid { grid-template-columns: repeat(6, 1fr); }
+  .tile.s1, .tile.s2, .tile.s3, .tile.s4, .tile.s5, .tile.s6, .tile.s7, .tile.s8, .tile.s9, .tile.s10, .tile.s11, .tile.s12 {
+    grid-column: span 6; grid-row: span 3;
+  }
+}
