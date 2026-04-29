@@ -2,12 +2,18 @@
 .gallery-hero { margin-bottom: 64px; }
 .gallery-hero h2 {
   font-family: var(--display);
-  font-size: clamp(80px, 14vw, 200px);
-  line-height: 0.85;
+  font-size: clamp(60px, 10vw, 140px);
+  line-height: 0.9;
   letter-spacing: -0.04em;
   color: var(--bone);
 }
-.gallery-hero .red { color: var(--blood); }
+.gallery-hero .red {
+  display: block;
+  color: var(--blood);
+  font-size: 0.45em;
+  letter-spacing: -0.02em;
+  margin-top: 8px;
+}
 .gallery-hero .sub {
   font-family: var(--typer);
   color: var(--bone-2);
