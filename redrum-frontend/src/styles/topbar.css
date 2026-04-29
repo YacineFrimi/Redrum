@@ -1,0 +1,82 @@
+.topbar {
+  position: fixed;
+  top: 0; left: 0; right: 0;
+  z-index: 100;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 18px 32px;
+  background: linear-gradient(to bottom, var(--ink) 60%, transparent);
+  font-family: var(--mono);
+  font-size: 11px;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+}
+.topbar .brand {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  text-decoration: none;
+}
+.topbar .brand-mark {
+  width: 36px; height: 36px;
+  border: 2px solid var(--blood);
+  display: grid; place-items: center;
+  font-family: var(--display);
+  color: var(--blood);
+  font-size: 18px;
+  letter-spacing: -0.05em;
+  background: var(--ink);
+  position: relative;
+}
+.topbar .brand-mark::after {
+  content: '';
+  position: absolute;
+  inset: -4px;
+  border: 1px solid var(--blood-deep);
+  opacity: .4;
+}
+.topbar .brand-name {
+  font-family: var(--display);
+  font-size: 18px;
+  letter-spacing: 0.12em;
+  color: var(--bone);
+}
+.topbar nav {
+  display: flex;
+  gap: 4px;
+}
+.topbar nav a {
+  background: none;
+  border: none;
+  color: var(--bone);
+  font-family: var(--mono);
+  font-size: 11px;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  padding: 8px 14px;
+  position: relative;
+  transition: color .2s;
+  text-decoration: none;
+}
+.topbar nav a:hover { color: var(--blood); }
+.topbar nav a.active { color: var(--neon); }
+.topbar nav a.active::before {
+  content: '▸ ';
+  color: var(--blood);
+}
+.topbar .status {
+  display: flex; align-items: center; gap: 10px;
+  color: var(--bone-2);
+  font-size: 10px;
+}
+.topbar .status .dot {
+  width: 8px; height: 8px;
+  background: var(--blood);
+  border-radius: 50%;
+  animation: blink 1.4s infinite;
+}
+@keyframes blink {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.2; }
+}

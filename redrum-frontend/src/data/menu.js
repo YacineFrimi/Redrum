@@ -1,0 +1,56 @@
+export const MENU = {
+  cocktails: [
+    { name: 'Le Jack Torrance', desc: "Bourbon, sirop d'écorce, orange brûlée", price: '9' },
+    { name: 'Démogorgon Spritz', desc: 'Gin, hibiscus, prosecco', price: '8.5' },
+    { name: 'Sang & Limonade', desc: 'Rhum ambré, grenadine maison, citron', price: '8' },
+    { name: 'Room 237', desc: 'Mezcal, ananas grillé, piment', price: '10' },
+    { name: "Wendy's Tears", desc: 'Vodka, citron vert, sel noir, soda', price: '8' },
+    { name: 'Eleven', desc: 'Gin, gaufre belge infusée, miel', price: '9' },
+    { name: 'Carrie', desc: 'Tequila, jus de tomate, tabasco, céleri', price: '8.5' },
+    { name: 'Le Couloir', desc: 'Cognac, café froid, cardamome', price: '9.5' },
+  ],
+  bieres: [
+    { name: 'Duvel', desc: 'Blonde forte · Belgique · 33cl', price: '4.5' },
+    { name: 'Chouffe Houblon', desc: 'IPA belge · pression · 25cl', price: '4' },
+    { name: 'Cuvée des Trolls', desc: 'Blonde épicée · 33cl', price: '4' },
+    { name: 'Saison Dupont', desc: 'Saison sèche · 33cl', price: '4.5' },
+    { name: 'Aquarium IPA', desc: 'Maison Redrum · pression · 25cl', price: '5' },
+    { name: 'Westmalle Tripel', desc: 'Trappiste · 33cl', price: '5' },
+    { name: 'Kriek Lindemans', desc: 'Cerise · pour les gentils · 25cl', price: '4' },
+    { name: 'Bière à la paille', desc: 'Happy Hour 17h-18h · uniquement', price: '3' },
+  ],
+  rhum: [
+    { name: 'Diplomatico Reserva', desc: 'Venezuela · 12 ans · 4cl', price: '7' },
+    { name: 'Plantation XO', desc: 'Barbade · vieux · 4cl', price: '8' },
+    { name: 'Trois Rivières', desc: 'Martinique · agricole · 4cl', price: '6' },
+    { name: 'Zacapa 23', desc: 'Guatemala · 4cl', price: '9' },
+    { name: 'Don Papa', desc: 'Philippines · doux · 4cl', price: '6.5' },
+    { name: 'Botran 18', desc: 'Guatemala · 4cl', price: '8.5' },
+  ],
+  gin: [
+    { name: 'Gin Tonic Maison', desc: 'Gin Bombay, tonic, concombre', price: '8' },
+    { name: "Hendrick's", desc: 'Avec rose et concombre', price: '9' },
+    { name: 'Monkey 47', desc: 'Forêt-Noire · botanique', price: '11' },
+    { name: 'Tanqueray Ten', desc: 'Citron, pamplemousse, camomille', price: '9' },
+    { name: 'Copperhead', desc: 'Belge · sec · botanique', price: '9' },
+    { name: 'Gin du chef', desc: 'Composition surprise · à la louche', price: '7' },
+  ],
+  shots: [
+    { name: 'Jägermeister', desc: 'Le classique · 4cl glacé', price: '4' },
+    { name: 'Fernet Branca', desc: 'Italien · amer · pour les durs', price: '5' },
+    { name: 'Underberg', desc: 'Petite bouteille · digestion express', price: '4' },
+    { name: 'Tequila Cuervo', desc: 'Sel, citron, regret', price: '4' },
+    { name: 'Mezcal Vida', desc: 'Fumé · pour ceux qui aiment ça', price: '6' },
+    { name: 'Shot Mystère', desc: 'Le barman décide · vous payez', price: '3' },
+    { name: 'Sambuca flambé', desc: 'Avec le grain de café · trois flammes', price: '5' },
+    { name: 'Tournée du patron', desc: 'Quand il est de bonne humeur', price: '0' },
+  ],
+};
+
+export const MENU_TABS = [
+  { id: 'cocktails', label: 'Cocktails' },
+  { id: 'bieres', label: 'Bières' },
+  { id: 'rhum', label: 'Rhum' },
+  { id: 'gin', label: 'Gin' },
+  { id: 'shots', label: 'Shots' },
+];

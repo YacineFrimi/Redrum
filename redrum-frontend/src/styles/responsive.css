@@ -1,0 +1,14 @@
+@media (max-width: 900px) {
+  .hero { grid-template-columns: 1fr; padding: 32px; gap: 48px; }
+  .hero-side { border-left: none; border-top: 1px solid var(--smoke); padding-left: 0; padding-top: 32px; }
+  .drinks-grid, .strip-grid, .menu-list, .about-hero, .about-meta, .footer-grid { grid-template-columns: 1fr; }
+  .events-hero { grid-template-columns: 1fr; }
+  .event-row { grid-template-columns: auto 1fr; gap: 16px; }
+  .event-row .event-time, .event-row .event-tag, .event-row .event-price { display: none; }
+  .menu-page, .events-page, .gallery-page, .signature, .strip, .about-meta, .footer { padding: 32px; }
+  .topbar nav { display: none; }
+  .gallery-grid { grid-template-columns: repeat(6, 1fr); }
+  .tile.s1, .tile.s2, .tile.s3, .tile.s4, .tile.s5, .tile.s6, .tile.s7, .tile.s8, .tile.s9, .tile.s10, .tile.s11, .tile.s12 {
+    grid-column: span 6; grid-row: span 3;
+  }
+}

@@ -6,13 +6,13 @@
 Thumbs.db
 .DS_Store
 
-# Node (futur backend)
+# Node
 node_modules/
 .env
 .env.local
 
-# Build artifact (bundle standalone 7.6MB — généré, pas à versionner)
-redrum-frontend/Redrum-Bar-Tournai.html
+# Vite build output
+redrum-frontend/dist/
 
 # Polices commerciales (ITC Benguiat — licence Monotype/ITC).
 # Ne pas pousser sur un repo PUBLIC. Si le repo est privé, supprime ces deux lignes.

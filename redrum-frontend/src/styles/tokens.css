@@ -1,0 +1,29 @@
+@import url('https://fonts.googleapis.com/css2?family=Rubik+Mono+One&family=Rubik+Glitch&family=JetBrains+Mono:wght@400;500;700&family=Special+Elite&family=UnifrakturCook:wght@700&display=swap');
+
+:root {
+  --ink: #0a0908;
+  --ink-2: #14110f;
+  --bone: #f4ede4;
+  --bone-2: #ddd2c2;
+  --blood: #c41e1e;
+  --blood-deep: #8a0e0e;
+  --st-red: #e50914;
+  --st-red-deep: #a00509;
+  --neon: #f5d547;
+  --rust: #6b2a1f;
+  --smoke: rgba(244, 237, 228, 0.06);
+
+  --display: 'Rubik Mono One', 'Impact', sans-serif;
+  --glitch: 'UnifrakturCook', 'Times New Roman', serif;
+  --mono: 'JetBrains Mono', 'Courier New', monospace;
+  --typer: 'Special Elite', 'JetBrains Mono', monospace;
+
+  --splat-x: 251px;
+  --splat-y: 0px;
+  --splat-size: 300%;
+  --splat-opacity: 0.75;
+  --splat-rotate: 0deg;
+  --bar-size: 0.55em;
+  --bar-tilt: 0deg;
+  --bar-spacing: 0.14em;
+}

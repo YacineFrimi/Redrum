@@ -1,0 +1,12 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(mkdir -p public/cursors public/img public/fonts)",
+      "Bash(mv skeleton-32.png skeleton-arrow-32.png skeleton.cur skeleton-arrow.cur public/cursors/)",
+      "Bash(mv img/splatter.jpg public/img/)",
+      "Bash(mv fonts/*.otf public/fonts/)",
+      "Bash(rm -rf img fonts uploads)",
+      "Bash(npm install *)"
+    ]
+  }
+}

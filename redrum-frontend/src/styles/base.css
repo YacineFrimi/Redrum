@@ -1,0 +1,70 @@
+* { box-sizing: border-box; margin: 0; padding: 0; }
+
+html, body {
+  background: var(--ink);
+  color: var(--bone);
+  font-family: var(--mono);
+  font-size: 16px;
+  line-height: 1.5;
+  overflow-x: hidden;
+  cursor: url('/cursors/skeleton-arrow-32.png') 0 0, auto;
+}
+
+[data-cursor="hover"],
+button, a, .drink-card, .menu-item, .event-row, .tile, .menu-tab,
+.topbar nav button, .topbar nav a, .brand, .social-link {
+  cursor: url('/cursors/skeleton-32.png') 7 0, pointer;
+}
+
+.cursor, .cursor-dot { display: none !important; }
+
+.page {
+  display: none;
+  min-height: 100vh;
+  padding-top: 80px;
+}
+.page.active { display: block; }
+
+.splash {
+  position: fixed;
+  inset: 0;
+  background: var(--ink);
+  z-index: 10000;
+  display: grid;
+  place-items: center;
+  pointer-events: none;
+  transition: opacity .6s, visibility .6s;
+}
+.splash.hidden { opacity: 0; visibility: hidden; }
+.splash-content { text-align: center; }
+.splash-content .word {
+  font-family: var(--display);
+  font-size: clamp(60px, 12vw, 160px);
+  color: var(--blood);
+  letter-spacing: 0.05em;
+  animation: splashGlitch .15s steps(2) infinite;
+}
+.splash-content .sub {
+  font-family: var(--mono);
+  font-size: 12px;
+  letter-spacing: 0.4em;
+  color: var(--bone-2);
+  margin-top: 16px;
+  text-transform: uppercase;
+}
+@keyframes splashGlitch {
+  0% { transform: translate(0,0); }
+  25% { transform: translate(-1px, 1px); }
+  50% { transform: translate(1px, -1px); }
+  75% { transform: translate(-1px, -1px); }
+}
+
+.reveal {
+  opacity: 0;
+  transform: translateY(20px);
+  transition: opacity .6s, transform .6s;
+}
+.reveal.in {
+  opacity: 1;
+  transform: translateY(0);
+}
